@@ -1,0 +1,58 @@
+name: Digest preview
+
+on:
+  workflow_dispatch:
+    inputs:
+      marker:
+        description: Lane marker (leave blank to remove it after review)
+        required: false
+        default: ''
+        type: string
+      night:
+        description: Night to export (YYYY-MM-DD)
+        required: true
+        default: '2026-10-28'
+        type: string
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: github-pages
+  cancel-in-progress: false
+
+jobs:
+  preview:
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          persist-credentials: false
+      - uses: pnpm/action-setup@v6
+        with:
+          version: 10
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 24
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
+      - run: pnpm typecheck
+      # Deliberately no --env-file: a blank marker must stay blank during cleanup.
+      - name: Export digest without starting the heartbeat
+        run: pnpm exec tsx scripts/export-preview.ts var/preview
+        env:
+          LANE_MARKER: ${{ inputs.marker }}
+          PREVIEW_NIGHT: ${{ inputs.night }}
+      - uses: actions/upload-pages-artifact@v5
+        with:
+          path: var/preview
+          retention-days: 1
+      - name: Deploy preview
+        id: deployment
+        uses: actions/deploy-pages@v5
