@@ -141,7 +141,7 @@ describe('digest routes', () => {
     const twoCounts = two.cells.filter((cell) => /^2(?:\s|$)/.test(text(cell)));
     expect(twoCounts.length).toBeGreaterThan(0);
     for (const cell of twoCounts) expect(cell).not.toMatch(warning);
-    expect(failed.cells.find((cell) => text(cell).includes('fail'))).toMatch(warning);
+    expect(failed.cells.find((cell) => text(cell) === 'fail')).toMatch(warning);
   });
 
   it('keeps original timestamp offsets in both representations', async () => {
