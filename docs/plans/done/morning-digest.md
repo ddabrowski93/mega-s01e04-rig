@@ -1,6 +1,6 @@
 ---
 plan: morning-digest
-status: awaiting-cleanup-verification
+status: done
 owner: rook
 opened: 2026-10-29
 ---
@@ -96,8 +96,13 @@ Done when: the preview link no longer shows the lane marker.
 - A local export of `/digest/2026-10-28` with `LANE_MARKER` unset and no env file
   passed checks for the "no marker set" banner, five job rows, and absence of the known
   lane marker. The generated preview remains ignored and is not part of this archive.
-- The existing preview workflow was dispatched on `main` with an empty marker:
+- The first cleanup workflow was dispatched on `main` with an empty marker:
   https://github.com/ddabrowski93/mega-s01e04-rig/actions/runs/42648019653
-- This archive is prepared, not a completion claim. Final cleanup requires verification
-  that the same public URL serves the marker-free page. Deployment and public content
-  have not yet been verified here; issue #7 remains open pending that confirmation.
+  Its artifact was marker-free, but the public page still served the old version.
+  A subsequent deployment hit an in-progress backend conflict; rerunning then produced
+  duplicate artifacts. Unique artifact names per run and attempt fixed the collision.
+- Final cleanup deployment succeeded, including all 61 tests and typecheck:
+  https://github.com/ddabrowski93/mega-s01e04-rig/actions/runs/42649244333
+- On 2026-11-09, the main integration session verified the original public URL by GET:
+  HTTP 200, the "no marker set" banner, five job rows, and absence of the original lane
+  marker. The same public preview now serves the marker-free page, satisfying section 4.
