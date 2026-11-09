@@ -56,6 +56,10 @@ permissions with the `github-pages` environment. Deployments share a concurrency
 do not cancel an in-progress deployment. Official action majors were checked against
 GitHub's read-only releases API when preparing this workflow.
 
+Upload and deployment use the same artifact name, unique to the workflow run and attempt.
+This prevents reruns from failing because multiple artifacts share the default
+`github-pages` name. A successful workflow still requires checking the public page.
+
 ## Cleanup after review
 
 With approval for the replacement deployment, run the **same workflow** on the same code
