@@ -1,18 +1,22 @@
-import { mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { mkdirSync, mkdtempSync, rmSync, writeFileSync } from 'node:fs';
+import { tmpdir } from 'node:os';
 import { join } from 'node:path';
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest';
 import { createApp } from '../src/app.js';
 
 describe('digest page', () => {
-  let runsDir: string;
+  let runsDir = '';
 
   beforeEach(() => {
-    runsDir = mkdtempSync('/tmp/opencode/rig-digest-page-');
+    runsDir = '';
+    const tempBase = join(tmpdir(), 'opencode');
+    mkdirSync(tempBase, { recursive: true });
+    runsDir = mkdtempSync(join(tempBase, 'rig-digest-page-'));
     vi.stubEnv('LANE_MARKER', 'PAGE-TEST-MARKER');
   });
 
   afterEach(() => {
-    rmSync(runsDir, { recursive: true, force: true });
+    if (runsDir) rmSync(runsDir, { recursive: true, force: true });
     vi.unstubAllEnvs();
   });
 
