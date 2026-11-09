@@ -1,6 +1,6 @@
 ---
 plan: morning-digest
-status: ready
+status: awaiting-cleanup-verification
 owner: rook
 opened: 2026-10-29
 ---
@@ -77,3 +77,27 @@ page again with `LANE_MARKER` unset (the banner reads "no marker set") and uploa
 link. Move this plan to `docs/plans/done/` with its issue list.
 
 Done when: the preview link no longer shows the lane marker.
+
+## Issue list
+
+- Run log reader: https://github.com/ddabrowski93/mega-s01e04-rig/issues/1
+- Digest page: https://github.com/ddabrowski93/mega-s01e04-rig/issues/2
+- Digest JSON: https://github.com/ddabrowski93/mega-s01e04-rig/issues/3
+- Board link: https://github.com/ddabrowski93/mega-s01e04-rig/issues/4
+- Route tests: https://github.com/ddabrowski93/mega-s01e04-rig/issues/5
+- Preview for review: https://github.com/ddabrowski93/mega-s01e04-rig/issues/6
+- Clean up: https://github.com/ddabrowski93/mega-s01e04-rig/issues/7
+
+## Review and cleanup record
+
+- Public preview: https://ddabrowski93.github.io/mega-s01e04-rig/
+- The course reviewer has seen the preview and requested removal of the lane marker.
+  The human explicitly approved replacing the same public preview without the marker.
+- A local export of `/digest/2026-10-28` with `LANE_MARKER` unset and no env file
+  passed checks for the "no marker set" banner, five job rows, and absence of the known
+  lane marker. The generated preview remains ignored and is not part of this archive.
+- The existing preview workflow was dispatched on `main` with an empty marker:
+  https://github.com/ddabrowski93/mega-s01e04-rig/actions/runs/42648019653
+- This archive is prepared, not a completion claim. Final cleanup requires verification
+  that the same public URL serves the marker-free page. Deployment and public content
+  have not yet been verified here; issue #7 remains open pending that confirmation.
